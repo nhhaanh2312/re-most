@@ -7,7 +7,6 @@ import torch.nn as nn
 warnings.filterwarnings('ignore')
 from tqdm import tqdm
 from utils.metrics import metric
-from thop import profile, clever_format
 import time
 import gc
 
@@ -57,9 +56,10 @@ class Engine_Forecasting(object):
     
 
     def _autocast(self):
-        # bf16 autocast only on CUDA; plain fp32 on CPU
-        return torch.autocast(device_type=self.args.device.type, dtype=torch.bfloat16,
-                              enabled=self.args.device.type == 'cuda')
+        # bf16 autocast only on Ampere+ GPUs (native bf16); fp32 on CPU and older GPUs (T4, P100)
+        use_bf16 = (self.args.device.type == 'cuda'
+                    and torch.cuda.get_device_capability(self.args.device)[0] >= 8)
+        return torch.autocast(device_type=self.args.device.type, dtype=torch.bfloat16, enabled=use_bf16)
 
     def _denorm(self, a, dataset):
         if self.args.is_norm:
