@@ -17,6 +17,18 @@ pip install -r requirements.txt
 ### Datasets
 Traffic data were sourced from [Urban-Dataset](https://github.com/uctb/Urban-Dataset/tree/main) and [LargrST](https://www.kaggle.com/datasets/liuxu77/largest). Point-of-interest (POI) data were obtained from the [Foursquare](https://huggingface.co/datasets/foursquare/fsq-os-places). Satellite imagery was acquired from Google Earth.
 
+To prepare Chicago taxi data from `data/taxi_chi/Taxi_Chicago.zip`, run:
+
+```bash
+python prepare_chi.py --root datasets
+```
+
+This uses 2013–2015 at the original 15-minute interval and a chronological
+70%/10%/20% train/validation/test split. It writes `Taxi_Chicago` data, locations,
+distance-based adjacency, training mean/std, and zero POI/satellite placeholders.
+Use dataset name `Taxi_Chicago` and modality state `[0,0,1,1]` in your configuration
+to disable the unavailable POI and satellite features.
+
 ### Running
 
 To train the MoST model, execute the following command. The example configuration file is data_configs/most.yaml. For inference, set the --is_trainingflag to 0.

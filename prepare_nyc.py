@@ -1,11 +1,3 @@
-"""Build MoST input files for Taxi_NYC from the UCTB pickle (data/taxi_nyc/Taxi_NYC.zip).
-
-Follows the paper setup: 15-minute steps, 2016-01-01 .. 2018-12-31, chronological 7:1:2 split.
-POI / satellite features are not available here, so zero placeholders are written; disable those
-modalities at run time with  --data-state "[0,0,1,1]"  (order: poi, satellite, location, TS).
-
-Usage: python prepare_nyc.py [--root datasets]
-"""
 import argparse
 import json
 import os
