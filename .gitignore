@@ -1,0 +1,5 @@
+logs/
+.vscode/
+checkpoints/
+__pycache__/
+requirements_cpu.txt
